@@ -5,6 +5,13 @@ import numpy as np
 from datetime import datetime
 from sentence_transformers import SentenceTransformer, util
 
+def is_end(input_string):
+    # This will check if the user wants to end conversation with the chatbot
+    pattern = re.compile(r'\(bye|exit)\b', re.IGNORECASE)
+    if pattern.search(input_string):
+        return True
+    return False
+
 def rule_based():
     eliza = eliza.Eliza() # load the model
 
