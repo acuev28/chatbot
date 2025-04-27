@@ -33,8 +33,6 @@ def rule_based():
     while True:
         user_input = input("\nYou: ")
 
-        # print(f"\nUser: {user_input}")
-
         # If the user wants to end chat by typing ("bye" or "exit")
         if is_end(user_input):
             print("Agent: Goodbye!")
@@ -50,6 +48,14 @@ def corpus_based():
     user_dialogue = data['User'].tolist()
     user_embeddings = model.encode(user_dialogue)
 
+    while True:
+        user_input = input("\nYou: ")
+
+        if is_end(user_input):
+            print("Agent: Goodbye!")
+            break
+        corpus_response = get_response(user_input, data, model, user_embeddings)
+        print(f"Agent: {corpus_response}")
 
 
 def main():
@@ -63,6 +69,7 @@ def main():
         rule_based()
     elif (user_choice == "2"):
         corpus_based()
-
+    else:
+        print("Not a valid choice. Try again.")
 
 main()
