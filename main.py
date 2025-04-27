@@ -12,6 +12,19 @@ def is_end(input_string):
         return True
     return False
 
+def get_response(user_input, data, model, user_embedding):
+    # Convert the input of the user to its sentence embedding
+    input_embedding = model.encode(user_input)
+    
+    # Compute cosine similarities
+    cosine_scores = util.pytorch_cos_sim(user_embedding, input_embedding)
+    
+    # Find the index of the highest cosine similarity using np.argmax.
+    best_match_idx = np.argmax(cosine_scores).item()
+    
+    # Return the corresponding string for the 'Agent' column
+    return data.iloc[best_match_idx]["Agent"]
+
 
 def rule_based():
     eliza_chat = eliza.Eliza() # load the model
@@ -30,6 +43,14 @@ def rule_based():
         eliza_response = eliza_chat.respond(user_input)
         print(f"Agent: {eliza_response}")
 
+def corpus_based():
+    data = pd.read_csv("dialogue.csv")
+    model = SentenceTransformer("all-MiniLM-L6-v2")
+
+    user_dialogue = data['User'].tolist()
+    user_embeddings = model.encode(user_dialogue)
+
+
 
 def main():
     print("What type of chatbot would you like to chat with?\n")
@@ -40,5 +61,8 @@ def main():
 
     if (user_choice == "1"):
         rule_based()
+    elif (user_choice == "2"):
+        corpus_based()
+
 
 main()
