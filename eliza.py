@@ -24,7 +24,7 @@ class Eliza:
         keys = vocabulary.keys();
         for i in range(0, len(words)):
             if words[i] in keys:
-                words[i] = vocabulary[words[i]]
+               words[i] = vocabulary[words[i]]
         return ' '.join(words)
 
   #----------------------------------------------------------------------
